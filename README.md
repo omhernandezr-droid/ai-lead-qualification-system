@@ -482,10 +482,8 @@ The following are potential future extensions and are **not** implemented in the
 
 ## 25. Author
 
-Built as a portfolio project focused on AI Automation Engineering and n8n workflow development.
+## 25. Author
 
-Replace this section with your preferred name, LinkedIn, portfolio URL, or contact information.
+Built by Omar Hernandez as a portfolio project focused on AI Automation Engineering and n8n workflow development.
 
-## 26. License
 
-Add the license that best fits your intended use before publishing.
