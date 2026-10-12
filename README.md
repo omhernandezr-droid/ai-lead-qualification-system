@@ -1,6 +1,16 @@
-# AI-Powered Lead Qualification & Follow-up Automation
+# AI Lead Qualification System
 
-An end-to-end AI automation built with n8n that captures, validates, deduplicates, scores, qualifies, and routes inbound leads, stores them in a CRM, sends classification-based follow-up emails, and monitors workflow failures automatically.
+An end-to-end n8n automation that turns inbound form submissions into validated, scored, and prioritized sales leads. It combines deterministic business rules with Google Gemini analysis, stores results in Google Sheets, sends classification-based Gmail follow-up, and reports workflow failures through a dedicated error handler.
+
+## Project at a Glance
+
+| | |
+|---|---|
+| **Business problem** | Manual lead review is slow, inconsistent, and difficult to scale. |
+| **What this system does** | Validates and deduplicates leads, applies hybrid AI scoring, classifies each lead, updates a lightweight CRM, and sends personalized follow-up. |
+| **Core stack** | n8n, Google Gemini, Google Sheets, Gmail, Webhooks / REST |
+| **Decision model** | Deterministic scoring for objective criteria plus structured AI evaluation for qualitative signals |
+| **Portfolio scope** | Two sanitized n8n workflows, architecture diagrams, workflow screenshots, CRM example, and setup documentation |
 
 ## 1. Overview
 
@@ -99,6 +109,10 @@ A dedicated error workflow captures failed executions, logs structured error dat
 Google Sheets acts as a lightweight CRM and stores deterministic scores, AI-generated qualification signals, final classification, and follow-up status.
 
 ![CRM and Qualification Results](docs/crm-example.png)
+
+### Demo
+
+The screenshots above document the current workflow and CRM output. A short Loom walkthrough can be added here after it is recorded.
 
 ## 5. Key Features
 
@@ -316,12 +330,33 @@ The email alert includes the workflow, failed node, error message, execution ID,
 - Webhooks / REST
 - Postman
 
+## Use Cases
+
+- Qualifying inbound leads before sales review
+- Prioritizing high-intent opportunities with consistent scoring rules
+- Preventing repeated processing and duplicate outreach
+- Sending different follow-up messages for HOT, WARM, and COLD leads
+- Maintaining a lightweight sales pipeline without a full CRM platform
+- Creating an auditable record of AI signals, final scores, and follow-up status
+
+## Potential Business Value
+
+- Reduces repetitive lead-review work
+- Helps sales teams focus attention on higher-priority opportunities
+- Standardizes qualification criteria across every inbound submission
+- Accelerates the first follow-up after a lead is processed
+- Avoids unnecessary AI calls and duplicate emails
+- Improves operational visibility through structured error logging and alerts
+
 ## 17. Project Files
 
 Recommended repository structure:
 
 ```text
 ai-lead-qualification-system/
+│
+├── .gitignore
+├── README.md
 │
 ├── workflows/
 │   ├── ai-lead-qualification-n8n.json
@@ -332,14 +367,30 @@ ai-lead-qualification-system/
 │   ├── error-handler.png
 │   └── crm-example.png
 │
-└── README.md
+└── portfolio/
+    └── portfolio-materials.md
 ```
 
-The files under `docs/` are suggested portfolio screenshots and can be added later.
+The `docs/` directory contains the final workflow and CRM screenshots. The `portfolio/` directory contains reusable copy for professional profiles, proposals, a CV, and a demo recording.
+
+## Credentials & Environment Configuration
+
+This repository does not contain application code that reads a local `.env` file, so an `.env.example` would not represent the actual configuration process. Secrets should be created and stored through n8n's credential manager.
+
+The imported workflows require the following credentials and resource selections:
+
+| Integration | Configuration required |
+|---|---|
+| Header Auth | Create an n8n Header Auth credential and assign it to the webhook. |
+| Google Gemini | Create or select a Gemini credential in n8n and verify that the configured model is available in the target instance. |
+| Google Sheets | Create or select Google OAuth credentials, replace the document placeholder, and reselect the `Leads` and `Errors` tabs. |
+| Gmail | Create or select Gmail OAuth credentials for follow-up messages and administrative alerts. |
+
+Do not paste API keys, OAuth secrets, spreadsheet IDs, or credential objects into the exported JSON files.
 
 ## 18. Setup / Installation
 
-> The public workflow JSON files do not contain credentials. Configure your own accounts and secrets before activation.
+> The sanitized portfolio workflow JSON files do not contain credentials. Configure your own accounts and secrets before activation.
 
 1. Import both JSON workflows into n8n.
 2. Create a Google Sheet with two tabs:
@@ -398,7 +449,7 @@ Configure the Header Auth credential in n8n so its header name matches the one u
 }
 ```
 
-## 20. Expected Flow
+## 20. How It Works
 
 ### A. New valid lead
 
@@ -427,7 +478,7 @@ Configure the Header Auth credential in n8n so its header name matches the one u
 
 ## 21. Security Notes
 
-The public workflow files were sanitized before publication. They do not include:
+The portfolio workflow files were sanitized before being added to this repository. They do not include:
 
 - API keys
 - OAuth secrets
@@ -482,8 +533,6 @@ The following are potential future extensions and are **not** implemented in the
 
 ## 25. Author
 
-## 25. Author
+**Omar Hernandez Rojas**
 
-Built by Omar Hernandez as a portfolio project focused on AI Automation Engineering and n8n workflow development.
-
-
+Built as a portfolio project focused on AI Automation Engineering, workflow design, and business-process integration.

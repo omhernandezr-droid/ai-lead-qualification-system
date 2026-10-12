@@ -1,8 +1,16 @@
 .env
 .env.*
 *.env
+!.env.example
 credentials.json
 secrets.json
+client_secret*.json
+service-account*.json
+*.pem
+*.key
+*.p12
+*.pfx
 .n8n/
 node_modules/
 .DS_Store
+Thumbs.db
