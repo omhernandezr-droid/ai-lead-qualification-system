@@ -1,0 +1,252 @@
+{
+  "name": "AI Lead Qualification - Error Handler",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        -80,
+        0
+      ],
+      "id": "626cf453-3bde-4f8d-a3ce-0ce41d91e5f4",
+      "name": "Error Trigger"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "e9d39def-92e5-442d-82e2-9e53e7ffbef9",
+              "name": "error_time",
+              "value": "={{ $now }}",
+              "type": "string"
+            },
+            {
+              "id": "ca9a048a-5009-4fd0-90bf-5a85869b2d23",
+              "name": "workflow_name",
+              "value": "={{ $json.workflow?.name || 'Unknown workflow' }}",
+              "type": "string"
+            },
+            {
+              "id": "9413d6d3-3f3f-4213-bc8e-dc2e2d4347f4",
+              "name": "workflow_id",
+              "value": "={{ $json.workflow?.id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "73d0faf6-f21f-4053-9a54-9c6f307d7d0f",
+              "name": "execution_id",
+              "value": "={{ $json.execution?.id || '' }}",
+              "type": "string"
+            },
+            {
+              "id": "e1a17b0d-0809-4f1e-a2c1-6d71b5a0b227",
+              "name": "failed_node",
+              "value": "={{ $json.execution?.lastNodeExecuted || $json.trigger?.error?.node?.name || 'Unknown node' }}",
+              "type": "string"
+            },
+            {
+              "id": "df30ecb0-b3a6-4751-ba52-95efa79f56bd",
+              "name": "error_message",
+              "value": "={{ $json.execution?.error?.message || $json.trigger?.error?.message || $json.trigger?.error?.cause?.message || 'Unknown error' }}",
+              "type": "string"
+            },
+            {
+              "id": "e05f0e0a-4a4d-4b52-90a1-805a85e42588",
+              "name": "execution_url",
+              "value": "={{ $json.execution?.url || '' }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        144,
+        0
+      ],
+      "id": "e531dc8f-d173-4712-9a7f-9f63735aacb6",
+      "name": "Format Error Details"
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "YOUR_GOOGLE_SHEET_ID",
+          "mode": "list",
+          "cachedResultName": "AI Lead Qualification CRM",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": 65112648,
+          "mode": "list",
+          "cachedResultName": "Errors",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/YOUR_GOOGLE_SHEET_ID"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "Error Time": "={{ $json.error_time }}",
+            "Workflow Name": "={{ $json.workflow_name }}",
+            "Workflow ID": "={{ $json.workflow_id }}",
+            "Execution ID": "={{ $json.execution_id }}",
+            "Failed Node": "={{ $json.failed_node }}",
+            "Error Message": "={{ $json.error_message }}",
+            "Execution URL": "={{ $json.execution_url }}",
+            "Status": "NEW"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "Error Time",
+              "displayName": "Error Time",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Workflow Name",
+              "displayName": "Workflow Name",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Workflow ID",
+              "displayName": "Workflow ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Execution ID",
+              "displayName": "Execution ID",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Failed Node",
+              "displayName": "Failed Node",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Error Message",
+              "displayName": "Error Message",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Execution URL",
+              "displayName": "Execution URL",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            },
+            {
+              "id": "Status",
+              "displayName": "Status",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "type": "string",
+              "canBeUsedToMatch": true
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": false
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.7,
+      "position": [
+        368,
+        0
+      ],
+      "id": "f1499c86-89b0-4da0-87eb-6a15e9ce7c20",
+      "name": "Log Error to Sheet"
+    },
+    {
+      "parameters": {
+        "sendTo": "admin@example.com",
+        "subject": "={{ '🚨 n8n Error - ' + $('Format Error Details').item.json.workflow_name + ' - ' + $('Format Error Details').item.json.failed_node }}",
+        "message": "=<h2>🚨 AI Lead Qualification System Error</h2>  <p><strong>Workflow:</strong> {{ $('Format Error Details').item.json.workflow_name }}</p>  <p><strong>Failed Node:</strong> {{ $('Format Error Details').item.json.failed_node }}</p>  <p><strong>Error:</strong> {{ $('Format Error Details').item.json.error_message }}</p>  <p><strong>Execution ID:</strong> {{ $('Format Error Details').item.json.execution_id }}</p>  <p><strong>Time:</strong> {{ $('Format Error Details').item.json.error_time }}</p>  <p><strong>Execution URL:</strong> {{ $('Format Error Details').item.json.execution_url }}</p>  <hr>  <p>Please review the failed execution in n8n.</p>",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.2,
+      "position": [
+        592,
+        0
+      ],
+      "id": "258320f2-1b35-4dcd-99af-6e1f2fb855c3",
+      "name": "Send Error Alert"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "Format Error Details",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format Error Details": {
+      "main": [
+        [
+          {
+            "node": "Log Error to Sheet",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Log Error to Sheet": {
+      "main": [
+        [
+          {
+            "node": "Send Error Alert",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "nodeGroups": [],
+  "tags": []
+}
