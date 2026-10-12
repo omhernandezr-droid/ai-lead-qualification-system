@@ -80,6 +80,26 @@ flowchart LR
     C --> D[Send Error Alert]
 ```
 
+## Workflow Preview
+
+### Main Lead Qualification Workflow
+
+The main workflow handles validation, duplicate protection, hybrid AI scoring, CRM storage, classification-based routing, and automated follow-up.
+
+![Main Lead Qualification Workflow](docs/workflow-main.png)
+
+### Error Handling Workflow
+
+A dedicated error workflow captures failed executions, logs structured error data, and sends an administrative alert.
+
+![Error Handling Workflow](docs/error-handler.png)
+
+### CRM & Qualification Results
+
+Google Sheets acts as a lightweight CRM and stores deterministic scores, AI-generated qualification signals, final classification, and follow-up status.
+
+![CRM and Qualification Results](docs/crm-example.png)
+
 ## 5. Key Features
 
 - **Secured webhook with Header Auth:** the POST webhook uses n8n Header Authentication.
